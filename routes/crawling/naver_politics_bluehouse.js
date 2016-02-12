@@ -1,7 +1,7 @@
 /**
  * Created by leejunghyun on 16. 2. 12..
  */
-'use strict';
+
 try {
     var Spooky = require('spooky');
 } catch (e) {
@@ -11,8 +11,7 @@ try {
 var fs = require('fs');
 
 exports.getReply = function(req, res, next) {
-    var url = req.url.substring(7);
-    var total_;
+    url = req.url.substring(7);
     console.log(url);
     var spooky = new Spooky({
             child: {
@@ -46,6 +45,7 @@ exports.getReply = function(req, res, next) {
                         var current = this.evaluate(function(){
                             return document.querySelector('.u_cbox_page_on.__cbox_page_current').innerText;
                         });
+                        emit('test',current);
                         this.wait(500);
                     });
                 }
@@ -54,7 +54,7 @@ exports.getReply = function(req, res, next) {
             spooky.then(function (){
                 var title = this.evaluate(function () {
                     var rows = document.querySelectorAll('.u_cbox_list .u_cbox_text_wrap');
-                    var jobs = [];
+                    jobs = [];
 
                     for (var i = 0, row; row = rows[i]; i++) {
                         var a = row.querySelector('.u_cbox_contents');
@@ -68,7 +68,8 @@ exports.getReply = function(req, res, next) {
                     }
                     return jobs;
                 });
-                emit("total",title);
+                emit("hello",title);
+                emit("fs",title);
             });
 
             spooky.run();
@@ -76,14 +77,16 @@ exports.getReply = function(req, res, next) {
 
     spooky.on('error', function (e, stack) {
         console.error(e);
+
         if (stack) {
             console.log(stack);
         }
     });
 
-    spooky.on('total', function (data) {
-        res.redirect('http://localhost:3000/reply/redirect');
-        console.log(data);
+    spooky.on('hello', function (greeting) {
+        res.send(greeting);
+        console.log(greeting);
     });
+
 }
 
