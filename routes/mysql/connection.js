@@ -25,5 +25,7 @@ exports.dbConnection = function(req,res) {
         //res.json(rows);
     });
 
+
+
     res.redirect('http://localhost:3000/db/redirect');
 }

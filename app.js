@@ -3,6 +3,8 @@ var express = require('express'),
     path = require('path')
 
 var naverReplyHandler = require('./routes/crawling/naver_reply.js');
+var naverArticleUrl = require('./routes/crawling/naver_article_url.js');
+var naverLnbMenu = require('./routes/crawling/naver_lnb_menu.js');
 var dbHandler = require('./routes/mysql/connection.js');
 
 var app = express();
@@ -14,6 +16,18 @@ app.use(logger('dev'));
 app.use(logger('combined', {
     skip: function (req, res) { return res.statusCode < 400 }
 }));
+
+app.get('/', function(req,res){
+    res.render('index');
+});
+
+app.get('/lnb', naverLnbMenu.getUrl);
+
+app.get('/lnb/redirect*', function(req,res){
+    res.send(decodeURI(req.url));
+});
+
+app.get('/url/bluehouse/http*', naverArticleUrl.getUrl);
 
 app.get('/reply/http*', naverReplyHandler.getReply);
 

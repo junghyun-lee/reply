@@ -1,4 +1,7 @@
 /**
+ * Created by leejunghyun on 16. 2. 13..
+ */
+/**
  * Created by leejunghyun on 16. 2. 12..
  */
 
@@ -8,10 +11,8 @@ try {
     var Spooky = require('../lib/spooky');
 }
 
-var fs = require('fs');
-
-exports.getReply = function(req, res, next) {
-    url = req.url.substring(7);
+exports.getUrl = function(req, res) {
+    url = req.url.substring(15);
     console.log(url);
     var spooky = new Spooky({
             child: {
