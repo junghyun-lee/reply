@@ -12,19 +12,22 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(express.static(__dirname + '/routes/ejs'));
 app.use(logger('dev'));
 app.use(logger('combined', {
     skip: function (req, res) { return res.statusCode < 400 }
 }));
 
 app.get('/', function(req,res){
+    console.log(__dirname);
     res.render('index');
 });
 
 app.get('/lnb', naverLnbMenu.getUrl);
 
 app.get('/lnb/redirect*', function(req,res){
-    res.send(decodeURI(req.url));
+    //res.send(decodeURI(req.url));
+    res.render('lnb_redirect',{message:decodeURI(req.url)});
 });
 
 app.get('/url/bluehouse/http*', naverArticleUrl.getUrl);

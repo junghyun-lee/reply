@@ -46,6 +46,7 @@ exports.getReply = function(req, res, next) {
                         var current = this.evaluate(function(){
                             return document.querySelector('.u_cbox_page_on.__cbox_page_current').innerText;
                         });
+                        emit('test',current);
                         this.wait(500);
                     });
                 }
@@ -68,7 +69,8 @@ exports.getReply = function(req, res, next) {
                     }
                     return jobs;
                 });
-                emit("total",title);
+                emit("hello",title);
+                emit("fs",title);
             });
 
             spooky.run();
@@ -76,14 +78,16 @@ exports.getReply = function(req, res, next) {
 
     spooky.on('error', function (e, stack) {
         console.error(e);
+
         if (stack) {
             console.log(stack);
         }
     });
 
-    spooky.on('total', function (data) {
+    spooky.on('hello', function (greeting) {
         res.redirect('http://localhost:3000/reply/redirect');
-        console.log(data);
+        //res.send(greeting);
+        console.log(greeting);
     });
 }
 
