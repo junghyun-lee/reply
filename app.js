@@ -23,14 +23,13 @@ app.get('/', function(req,res){
     res.render('index');
 });
 
+//카테고리 분류
 app.get('/lnb', naverLnbMenu.getUrl);
 
-app.get('/lnb/redirect*', function(req,res){
-    //res.send(decodeURI(req.url));
-    res.render('lnb_redirect',{message:decodeURI(req.url)});
+//타이틀 별 기사 분류
+app.get('/title/http*', function(req,res){
+   res.send("됬다");
 });
-
-app.get('/url/bluehouse/http*', naverArticleUrl.getUrl);
 
 app.get('/reply/http*', naverReplyHandler.getReply);
 

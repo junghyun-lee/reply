@@ -3,51 +3,17 @@
 <head>
     <meta charset="UTF-8" />
     <title>lnb 메뉴 페이지</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>-->
     </head>
 <body>
 <div id="lnbContainer">
-    <a id="test" href="#">ㅇㅇㅇㅇ</a>
+    <div id="lnb">
+        <ul>
+
+        </ul>
+    </div>
     <p id="message"><%=message%></p>
 </div>
 </body>
 <script type="text/javascript" src="../lnbPage.js"></script>
-<script type="text/javascript">
-    NaverLnb = function(){
-        this.htmlFactory = new HTMLFactory();
-
-        this.initDate = function(){
-            var a = document.querySelector('#message').innerText;
-            var str = a.substring(14);
-            console.log(str);
-
-            var myObject = JSON.parse(str);
-            console.log(myObject);
-            for (var i in myObject)
-            {
-                console.log(myObject[i]["title"]);
-            }
-            this.htmlSet();
-        }
-        this.htmlSet = function(){
-            $("#lnbContainer").prepend(this.htmlFactory.defaultHtml());
-        }
-    }
-
-    HTMLFactory = function(){
-        this.loddingBar = function(){
-
-        }
-        this.defaultHtml = function(){
-            var formHTML = "";
-            formHTML += "<div id='lnb'>";
-            formHTML += "</div>";
-
-            return formHTML;
-        }
-    }
-
-    var NaverLnb = new NaverLnb();
-    NaverLnb.initDate();
-</script>
 </html>

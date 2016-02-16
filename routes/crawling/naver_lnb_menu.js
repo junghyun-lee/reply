@@ -5,8 +5,6 @@ try {
 } catch (e) {
     var Spooky = require('../lib/spooky');
 }
-var mysql = require('mysql');
-var dbHandler = require('../mysql/connection.js');
 
 exports.getUrl = function(req, res) {
 
@@ -65,8 +63,9 @@ exports.getUrl = function(req, res) {
 
     spooky.on('total', function (data) {
         var d = JSON.stringify(data);
-        res.redirect('http://localhost:3000/lnb/redirect?' + d);
-        console.log(d);
+        res.render('lnb_redirect',{message:d});
+        //res.redirect(encodeURI('http://localhost:3000/lnb/redirect?' + d));
+        console.log(data);
     });
 }
 
