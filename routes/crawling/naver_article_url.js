@@ -1,9 +1,5 @@
-/**
- * Created by leejunghyun on 16. 2. 13..
- */
-/**
- * Created by leejunghyun on 16. 2. 12..
- */
+/*Created by leejunghyun on 16. 2. 16..*/
+//lnb_redirect.ejs 페이지에서 lnbPage.js를 통해 넘어옴
 
 try {
     var Spooky = require('spooky');
@@ -12,7 +8,7 @@ try {
 }
 
 exports.getUrl = function(req, res) {
-    url = req.url.substring(15);
+    var url = req.url.substring(7);
     console.log(url);
     var spooky = new Spooky({
             child: {
@@ -30,47 +26,25 @@ exports.getUrl = function(req, res) {
                 throw e;
             }
 
-            spooky.start(url,function(){
-                this.waitForSelector('.u_cbox_list');
-            });
+            spooky.start(url);
 
             spooky.then(function(){
-                var total_count = this.evaluate(function(){ return document.querySelector('.u_cbox_count').innerText});
-                total_ = total_count.replace(/\,/g,'');
-            });
-
-            spooky.then(function(){
-                var count = total_ / 20;
-                for(var i=0;i<count;i++) {
-                    this.thenClick(".u_cbox_paginate a").then(function () {
-                        var current = this.evaluate(function(){
-                            return document.querySelector('.u_cbox_page_on.__cbox_page_current').innerText;
-                        });
-                        emit('test',current);
-                        this.wait(500);
-                    });
-                }
-            })
-
-            spooky.then(function (){
-                var title = this.evaluate(function () {
-                    var rows = document.querySelectorAll('.u_cbox_list .u_cbox_text_wrap');
-                    jobs = [];
-
+                var list = this.evaluate(function () {
+                    var rows = document.querySelectorAll('.type06_headline > li');
+                    var menu = [];
                     for (var i = 0, row; row = rows[i]; i++) {
-                        var a = row.querySelector('.u_cbox_contents');
-                        var l = a.parentElement.parentElement.parentElement.parentElement;
+                        var article = row.querySelector('a');
 
-                        var job = {};
+                        var obj = {};
 
-                        job['title'] = a.innerText;
-                        job['url'] = l.getAttribute('class').substring(36);
-                        jobs.push(job);
+                        obj['title'] = article.innerText;
+                        obj['url'] = article.href;
+                        menu.push(obj);
                     }
-                    return jobs;
+                    return menu;
                 });
-                emit("hello",title);
-                emit("fs",title);
+                this.emit('test',list);
+                this.emit('total',list);
             });
 
             spooky.run();
@@ -84,8 +58,12 @@ exports.getUrl = function(req, res) {
         }
     });
 
-    spooky.on('hello', function (greeting) {
-        res.send(greeting);
+    spooky.on('test', function (test) {
+        console.log(test);
+    });
+
+    spooky.on('total', function (greeting) {
+        res.render('lnb_title_redirect', {message:'야'});
         console.log(greeting);
     });
 

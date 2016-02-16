@@ -5,6 +5,7 @@ var express = require('express'),
 var naverReplyHandler = require('./routes/crawling/naver_reply.js');
 var naverArticleUrl = require('./routes/crawling/naver_article_url.js');
 var naverLnbMenu = require('./routes/crawling/naver_lnb_menu.js');
+var naverSubMenu = require('./routes/crawling/naver_sub_menu.js');
 var dbHandler = require('./routes/mysql/connection.js');
 
 var app = express();
@@ -26,11 +27,13 @@ app.get('/', function(req,res){
 //카테고리 분류
 app.get('/lnb', naverLnbMenu.getUrl);
 
-//타이틀 별 기사 분류
-app.get('/title/http*', function(req,res){
-   res.send("됬다");
-});
+//카테고리의 서브 분류
+app.get('/lnb/sub/http*', naverSubMenu.getUrl);
 
+//타이틀 별 기사 분류
+app.get('/lnb/sub/title/http*', naverArticleUrl.getUrl);
+
+//기사별 댓글
 app.get('/reply/http*', naverReplyHandler.getReply);
 
 app.get('/reply/redirect', function(req,res){
