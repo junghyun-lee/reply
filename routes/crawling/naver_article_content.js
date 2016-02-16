@@ -1,4 +1,6 @@
-/*Created by leejunghyun on 16. 2. 16..*/
+/**
+ * Created by leejunghyun on 16. 2. 16..
+ */
 
 try {
     var Spooky = require('spooky');
@@ -6,8 +8,8 @@ try {
     var Spooky = require('../lib/spooky');
 }
 
-exports.getUrl = function(req, res) {
-    var url = req.url.substring(15);
+exports.getContent = function(req, res) {
+    var url = req.url.substring(9);
     console.log(url);
     var spooky = new Spooky({
             child: {
@@ -29,7 +31,7 @@ exports.getUrl = function(req, res) {
 
             spooky.then(function(){
                 var list = this.evaluate(function () {
-                    var rows = document.querySelectorAll('.list_body.newsflash_body > ul > li > dl > dt:not(.photo)');
+                    var rows = document.querySelectorAll('.nav > li');
                     var menu = [];
                     for (var i = 0, row; row = rows[i]; i++) {
                         var article = row.querySelector('a');
@@ -42,7 +44,7 @@ exports.getUrl = function(req, res) {
                     }
                     return menu;
                 });
-                this.emit('test',list);
+                //this.emit('test',list);
                 this.emit('total',list);
             });
 

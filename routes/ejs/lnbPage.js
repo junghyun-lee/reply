@@ -16,6 +16,10 @@ NaverLnb = function(choice){
             this.selector = '#lnb_sub > ul';
             this.aTag = "<a href='http://localhost:3000/lnb/sub/title/";
         }
+        else if(this.choice == 3){
+            this.selector = '#lnb_article > ul';
+            this.aTag = "<a href='http://localhost:3000/lnb/sub/article/";
+        }
     }
 
     this.initDate = function(){
