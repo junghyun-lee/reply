@@ -3,6 +3,7 @@ NaverLnb = function(choice){
     this.choice = choice;
     this.selector;
     this.aTag;
+    this.reply = '';
 
     this.htmlFactory = new HTMLFactory();
 
@@ -19,6 +20,7 @@ NaverLnb = function(choice){
         else if(this.choice == 3){
             this.selector = '#lnb_article > ul';
             this.aTag = "<a href='http://localhost:3000/lnb/sub/article/";
+            this.reply = '&m_view=1';
         }
     }
 
@@ -35,7 +37,7 @@ NaverLnb = function(choice){
         console.log(myObject);
         for (var i in myObject)
         {
-            formHTML += this.htmlFactory.defaultHtml(myObject[i]["title"], myObject[i]['url']);
+            formHTML += this.htmlFactory.defaultHtml(myObject[i]["title"], myObject[i]['url'] + this.reply);
         }
         this.htmlSet(formHTML);
         message.style.display = 'none';
